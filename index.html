@@ -386,6 +386,28 @@ function showToast(msg) {
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
+const HASHTAGS_COMUNES = '#Farmacia #FarmacéuticaComunitaria #OficinaDeFarmacia #FarmaciaSinFiltros';
+const HASHTAGS_BLOQUE = {
+  paciente:   '#PacienteInformado',
+  burocracia: '#TrabasEnFarmacia',
+  mostrador:  '#DetrásDeMostrador',
+  comercial:  '#ComprasEnFarmacia',
+  espacio:    '#EspacioEnFarmacia',
+};
+
+function getHashtags(catId) {
+  const bloque = HASHTAGS_BLOQUE[catId] || '';
+  return bloque ? `${HASHTAGS_COMUNES} ${bloque}` : HASHTAGS_COMUNES;
+}
+
+function copyTextWithHashtags(text, catId) {
+  const hashtags = getHashtags(catId);
+  // Si el texto ya lleva hashtags al final, no los duplicamos
+  const textoLimpio = text.replace(/(\n+#[\w#\s\u00C0-\u024F]+)$/,'').trimEnd();
+  const final = `${textoLimpio}\n\n${hashtags}`;
+  navigator.clipboard.writeText(final).then(()=>showToast('✓ Copiado con hashtags')).catch(()=>showToast('✓ Copiado'));
+}
+
 function copyText(text) {
   navigator.clipboard.writeText(text).then(()=>showToast('✓ Copiado al portapapeles')).catch(()=>showToast('✓ Copiado'));
 }
@@ -500,7 +522,11 @@ window.tallerGuardar = function() {
   schedulePush(); tallerVolver(); showToast('✓ Post guardado');
 }
 
-window.tallerCopiar = function() { copyText(document.getElementById('taller-textarea').value); }
+window.tallerCopiar = function() {
+  const texto = document.getElementById('taller-textarea').value;
+  const cat = window._tallerCat || (tallerCurrentId ? (state.taller.find(t=>t.id===tallerCurrentId)||{}).category : '');
+  copyTextWithHashtags(texto, cat);
+}
 
 window.tallerPublicar = function() {
   const t=state.taller.find(x=>x.id===tallerCurrentId); if(!t) return;
@@ -662,7 +688,8 @@ window.archToggle = function(id) {
   if(btn) btn.textContent=expanded?'Cerrar ↑':'Leer completo ↓';
 }
 window.archCopiar = function(id) {
-  const a=state.archivo.find(x=>x.id===id); if(a) copyText(a.texto);
+  const a=state.archivo.find(x=>x.id===id);
+  if(a) copyTextWithHashtags(a.texto, a.category);
 }
 
 // ══════════════════════
