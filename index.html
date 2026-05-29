@@ -285,9 +285,8 @@ function copyWithHashtags(text, catId) {
   navigator.clipboard.writeText(final).then(()=>showToast('✓ Copiado con hashtags')).catch(()=>showToast('✓ Copiado'));
 }
 
-// ── Tabs ──
-document.addEventListener('DOMContentLoaded', () => { setupUI(); init(); });
-function setupUI() {
+// ── Tabs y UI ──
+document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('main-tabs').addEventListener('click', e => {
   const btn = e.target.closest('.tab-btn'); if (!btn) return;
   const tab = btn.dataset.tab;
@@ -681,7 +680,8 @@ async function init() {
   });
 }
 
-} // end setupUI
+  init();
+}); // end DOMContentLoaded
 </script>
 </body>
 </html>
