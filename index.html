@@ -6,109 +6,78 @@
 <title>Diario LinkedIn · Farmacéutica</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --dark:#1a2e2a; --green:#2d8a6e; --green-l:#e8f4f0; --cream:#faf9f6;
-    --white:#ffffff; --border:#e5dfd6; --input:#dfd8ce; --text:#1a1a18;
-    --muted:#888880; --subtle:#b0a898; --red:#c43a5a; --purple:#5a4fcf;
-  }
-  html,body{height:100%;}
-  body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--text);line-height:1.6;}
-  .app{display:flex;flex-direction:column;min-height:100vh;max-width:780px;margin:0 auto;}
-
-  header{background:var(--dark);color:#e8f4f0;padding:28px 32px 22px;position:relative;overflow:hidden;}
-  header::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(45,138,110,0.15);}
-  header::after{content:'';position:absolute;bottom:-30px;left:38%;width:100px;height:100px;border-radius:50%;background:rgba(45,138,110,0.08);}
-  .header-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7ab8a4;margin-bottom:5px;font-weight:300;}
-  header h1{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:26px;letter-spacing:-0.5px;margin-bottom:3px;color:#f0f7f4;}
-  .header-sub{font-size:13px;color:#a8c8be;font-style:italic;font-weight:300;}
-  .header-btns{display:flex;gap:8px;margin-top:14px;position:relative;z-index:2;align-items:center;}
-  .header-btn{padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#e8f4f0;font-family:'Source Serif 4',serif;font-size:12px;cursor:pointer;}
-  .sync-status{font-size:11px;color:#7ab8a4;margin-left:auto;font-style:italic;}
-
-  .tabs{display:flex;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-  .tab-btn{flex:1;padding:14px 6px;border:none;background:none;font-family:'Source Serif 4',serif;font-size:12px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.2s;}
-  .tab-btn.active{color:var(--green);font-weight:600;border-bottom-color:var(--green);}
-
-  main{flex:1;padding:24px 24px 48px;}
-  .panel{display:none;} .panel.active{display:block;}
-  .section-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:400;}
-
-  .field{margin-bottom:18px;}
-  .field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-  .field label .req{color:var(--red);}
-  textarea,input[type="text"]{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--input);font-family:'Source Serif 4',serif;font-size:14px;background:#fffef9;color:var(--text);outline:none;resize:vertical;line-height:1.65;transition:border-color 0.15s;}
-  textarea:focus,input[type="text"]:focus{border-color:var(--green);}
-
-  .pill-group{display:flex;gap:8px;flex-wrap:wrap;}
-  .pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--input);background:var(--white);color:#666;cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;transition:all 0.15s;}
-  .pill.active-green{border-color:var(--green);background:var(--green-l);color:var(--green);}
-  .pill.active-purple{border-color:var(--purple);background:#f0f0f8;color:var(--purple);}
-
-  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
-  .cat-btn{padding:10px 12px;border-radius:10px;border:1.5px solid var(--input);background:var(--white);cursor:pointer;text-align:left;font-family:'Source Serif 4',serif;font-size:12px;color:#555;transition:all 0.15s;line-height:1.4;}
-  .cat-btn .cat-name{display:block;}
-  .cat-btn .cat-desc{display:block;font-size:10px;opacity:0.6;margin-top:2px;}
-
-  .btn-primary{width:100%;padding:14px;border-radius:12px;border:none;background:var(--dark);color:#fff;font-family:'Source Serif 4',serif;font-size:14px;cursor:pointer;transition:all 0.2s;}
-  .btn-primary:hover{background:#243d38;}
-  .btn-primary:disabled{background:#ccc;cursor:not-allowed;}
-  .btn-secondary{width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--dark);background:var(--white);color:var(--dark);font-family:'Source Serif 4',serif;font-size:14px;cursor:pointer;transition:all 0.2s;}
-  .btn-secondary:hover{background:var(--green-l);}
-  .btn-ghost{padding:13px;border-radius:12px;border:1.5px solid var(--input);background:var(--white);color:var(--muted);font-family:'Source Serif 4',serif;font-size:13px;cursor:pointer;}
-  .btn-back{background:none;border:none;color:var(--green);font-family:'Source Serif 4',serif;font-size:13px;cursor:pointer;padding:0;margin-bottom:18px;}
-  .btn-sm{padding:7px 16px;border-radius:20px;border:1.5px solid var(--dark);background:var(--white);color:var(--dark);cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;transition:all 0.15s;}
-  .btn-sm:hover{background:var(--green-l);border-color:var(--green);color:var(--green);}
-  .btn-sm-danger{padding:7px 16px;border-radius:20px;border:1.5px solid #e5dfd6;background:var(--white);color:#c43a5a;cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;}
-
-  .card{background:var(--white);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-  .card-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-  .num-badge{width:26px;height:26px;border-radius:50%;background:var(--dark);color:#e8f4f0;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .cat-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
-  .card-text{font-size:14px;line-height:1.55;color:#333;margin-bottom:8px;}
-  .card-actions{display:flex;gap:8px;flex-wrap:wrap;}
-
-  .status-badge{padding:3px 10px;border-radius:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;}
-  .status-borrador{background:#f5f0e8;color:#8a6d3b;}
-  .status-listo{background:#e8f0fd;color:#2d5fa8;}
-  .status-publicado{background:#e8f4f0;color:#2d8a6e;}
-
-  .draft-box{background:var(--white);border-radius:16px;padding:20px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05);margin-bottom:12px;}
-  .draft-box pre{font-family:'Source Serif 4',serif;font-size:14px;line-height:1.75;white-space:pre-wrap;color:var(--text);}
-  .char-count{font-size:11px;text-align:right;color:var(--subtle);margin:0 0 14px;}
-  .char-count.over{color:var(--red);}
-
-  .empty-state{text-align:center;padding:60px 20px;color:var(--subtle);}
-  .empty-state .emoji{font-size:36px;margin-bottom:12px;}
-  .empty-state p{font-style:italic;line-height:1.6;margin-bottom:16px;}
-
-  .quicknote-box{background:var(--white);border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-  .quicknote-text{font-size:14px;line-height:1.55;color:#333;margin-bottom:10px;white-space:pre-wrap;}
-  .quicknote-date{font-size:11px;color:var(--subtle);margin-bottom:10px;}
-
-  .archive-card{background:var(--white);border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-  .archive-card .pub-date{font-size:11px;color:var(--subtle);margin-bottom:6px;}
-  .archive-card .pub-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;margin-bottom:10px;color:var(--dark);}
-  .archive-card .pub-preview{font-size:13px;color:#555;line-height:1.6;margin-bottom:12px;}
-  .archive-card .pub-full{font-size:13px;color:var(--text);line-height:1.75;white-space:pre-wrap;margin-bottom:12px;display:none;}
-  .archive-card .pub-full.expanded{display:block;}
-  .btn-toggle{background:none;border:none;color:var(--green);cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;padding:0;}
-
-  .reorder-btn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:4px 6px;line-height:1;}
-  .reorder-btn:hover{color:var(--dark);}
-
-  .taller-actions{display:flex;gap:10px;margin-top:14px;}
-  .taller-actions .btn-ghost{flex:1;}
-  .taller-actions .btn-primary{flex:2;}
-  .sep{height:1px;background:var(--border);margin:20px 0;}
-
-  #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:11px 24px;border-radius:30px;font-family:'Source Serif 4',serif;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.18);z-index:999;opacity:0;transition:all 0.3s;pointer-events:none;}
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-  #taller-textarea{width:100%;min-height:320px;padding:16px 18px;border-radius:12px;border:1.5px solid var(--input);font-family:'Source Serif 4',serif;font-size:14.5px;line-height:1.8;background:#fffef9;color:var(--text);outline:none;resize:vertical;}
-  #taller-textarea:focus{border-color:var(--green);}
-
-  @media(max-width:500px){main{padding:16px 14px 48px;}header{padding:20px 18px 16px;}header h1{font-size:22px;}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--dark:#1a2e2a;--green:#2d8a6e;--green-l:#e8f4f0;--cream:#faf9f6;--white:#fff;--border:#e5dfd6;--input:#dfd8ce;--text:#1a1a18;--muted:#888880;--subtle:#b0a898;--red:#c43a5a;--purple:#5a4fcf;}
+html,body{height:100%;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--text);line-height:1.6;}
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:780px;margin:0 auto;}
+header{background:var(--dark);color:#e8f4f0;padding:28px 32px 22px;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(45,138,110,0.15);}
+header::after{content:'';position:absolute;bottom:-30px;left:38%;width:100px;height:100px;border-radius:50%;background:rgba(45,138,110,0.08);}
+.header-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#7ab8a4;margin-bottom:5px;font-weight:300;}
+header h1{font-family:'Playfair Display',Georgia,serif;font-weight:400;font-size:26px;letter-spacing:-0.5px;margin-bottom:3px;color:#f0f7f4;}
+.header-sub{font-size:13px;color:#a8c8be;font-style:italic;font-weight:300;}
+.header-btns{display:flex;gap:8px;margin-top:14px;position:relative;z-index:2;align-items:center;}
+.header-btn{padding:7px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:#e8f4f0;font-family:'Source Serif 4',serif;font-size:12px;cursor:pointer;}
+.sync-status{font-size:11px;color:#7ab8a4;margin-left:auto;font-style:italic;}
+.tabs{display:flex;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.tab-btn{flex:1;padding:14px 6px;border:none;background:none;font-family:'Source Serif 4',serif;font-size:12px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.2s;}
+.tab-btn.active{color:var(--green);font-weight:600;border-bottom-color:var(--green);}
+main{flex:1;padding:24px 24px 48px;}
+.panel{display:none;}.panel.active{display:block;}
+.section-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:400;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.req{color:var(--red);}
+textarea,input[type="text"]{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--input);font-family:'Source Serif 4',serif;font-size:14px;background:#fffef9;color:var(--text);outline:none;resize:vertical;line-height:1.65;transition:border-color 0.15s;}
+textarea:focus,input[type="text"]:focus{border-color:var(--green);}
+.pill-group{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{padding:7px 14px;border-radius:20px;border:1.5px solid var(--input);background:var(--white);color:#666;cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;transition:all 0.15s;}
+.pill.ag{border-color:var(--green);background:var(--green-l);color:var(--green);}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+.cat-btn{padding:10px 12px;border-radius:10px;border:1.5px solid var(--input);background:var(--white);cursor:pointer;text-align:left;font-family:'Source Serif 4',serif;font-size:12px;color:#555;transition:all 0.15s;line-height:1.4;}
+.cat-name{display:block;}
+.cat-desc{display:block;font-size:10px;opacity:0.6;margin-top:2px;}
+.btn-primary{width:100%;padding:14px;border-radius:12px;border:none;background:var(--dark);color:#fff;font-family:'Source Serif 4',serif;font-size:14px;cursor:pointer;transition:all 0.2s;}
+.btn-primary:hover{background:#243d38;}
+.btn-secondary{width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--dark);background:var(--white);color:var(--dark);font-family:'Source Serif 4',serif;font-size:14px;cursor:pointer;}
+.btn-ghost{padding:13px;border-radius:12px;border:1.5px solid var(--input);background:var(--white);color:var(--muted);font-family:'Source Serif 4',serif;font-size:13px;cursor:pointer;}
+.btn-back{background:none;border:none;color:var(--green);font-family:'Source Serif 4',serif;font-size:13px;cursor:pointer;padding:0;margin-bottom:18px;display:block;}
+.btn-sm{padding:7px 16px;border-radius:20px;border:1.5px solid var(--dark);background:var(--white);color:var(--dark);cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;}
+.btn-sm-danger{padding:7px 16px;border-radius:20px;border:1.5px solid #e5dfd6;background:var(--white);color:var(--red);cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;}
+.card{background:var(--white);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.card-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.num-badge{width:26px;height:26px;border-radius:50%;background:var(--dark);color:#e8f4f0;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cat-badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.card-text{font-size:14px;line-height:1.55;color:#333;margin-bottom:8px;}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.status-badge{padding:3px 10px;border-radius:20px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;}
+.status-borrador{background:#f5f0e8;color:#8a6d3b;}
+.status-listo{background:#e8f0fd;color:#2d5fa8;}
+.char-count{font-size:11px;text-align:right;color:var(--subtle);margin:0 0 14px;}
+.char-count.over{color:var(--red);}
+.empty-state{text-align:center;padding:60px 20px;color:var(--subtle);}
+.empty-state .emoji{font-size:36px;margin-bottom:12px;}
+.empty-state p{font-style:italic;line-height:1.6;margin-bottom:16px;}
+.quicknote-box{background:var(--white);border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:12px;}
+.quicknote-text{font-size:14px;line-height:1.55;color:#333;margin-bottom:10px;white-space:pre-wrap;}
+.quicknote-date{font-size:11px;color:var(--subtle);margin-bottom:10px;}
+.archive-card{background:var(--white);border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid var(--border);}
+.pub-date{font-size:11px;color:var(--subtle);margin-bottom:6px;}
+.pub-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;margin-bottom:10px;color:var(--dark);}
+.pub-preview{font-size:13px;color:#555;line-height:1.6;margin-bottom:12px;}
+.pub-full{font-size:13px;color:var(--text);line-height:1.75;white-space:pre-wrap;margin-bottom:12px;display:none;}
+.pub-full.expanded{display:block;}
+.btn-toggle{background:none;border:none;color:var(--green);cursor:pointer;font-family:'Source Serif 4',serif;font-size:12px;padding:0;}
+.taller-actions{display:flex;gap:10px;margin-top:14px;}
+.taller-actions .btn-ghost{flex:1;}
+.taller-actions .btn-primary{flex:2;}
+.sep{height:1px;background:var(--border);margin:20px 0;}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:11px 24px;border-radius:30px;font-family:'Source Serif 4',serif;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,0.18);z-index:999;opacity:0;transition:all 0.3s;pointer-events:none;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#taller-textarea{width:100%;min-height:320px;padding:16px 18px;border-radius:12px;border:1.5px solid var(--input);font-family:'Source Serif 4',serif;font-size:14.5px;line-height:1.8;background:#fffef9;color:var(--text);outline:none;resize:vertical;}
+#taller-textarea:focus{border-color:var(--green);}
+@media(max-width:500px){main{padding:16px 14px 48px;}header{padding:20px 18px 16px;}header h1{font-size:22px;}}
 </style>
 </head>
 <body>
@@ -118,17 +87,17 @@
     <h1>Diario de ideas</h1>
     <p class="header-sub">Captura lo que ocurre hoy · publícalo mañana</p>
     <div class="header-btns">
-      <button class="header-btn" onclick="exportarDatos()">⬇ Exportar</button>
-      <label class="header-btn">⬆ Importar<input type="file" accept=".json" onchange="importarDatos(event)" style="display:none"></label>
-      <span class="sync-status" id="sync-status">☁ Sincronizando...</span>
+      <button class="header-btn" id="btn-exportar">⬇ Exportar</button>
+      <label class="header-btn" style="cursor:pointer">⬆ Importar<input type="file" id="input-importar" accept=".json" style="display:none"></label>
+      <span class="sync-status" id="sync-status">☁ Cargando...</span>
     </div>
   </header>
 
-  <nav class="tabs">
-    <button class="tab-btn active" onclick="showTab('taller',this)">✏️ Taller</button>
-    <button class="tab-btn" onclick="showTab('planificados',this)">📅 Planificados</button>
-    <button class="tab-btn" onclick="showTab('ideas',this)">💡 Ideas</button>
-    <button class="tab-btn" onclick="showTab('archivo',this)">📰 Archivo</button>
+  <nav class="tabs" id="main-tabs">
+    <button class="tab-btn active" data-tab="taller">✏️ Taller</button>
+    <button class="tab-btn" data-tab="planificados">📅 Planificados</button>
+    <button class="tab-btn" data-tab="ideas">💡 Ideas</button>
+    <button class="tab-btn" data-tab="archivo">📰 Archivo</button>
   </nav>
 
   <main>
@@ -137,10 +106,10 @@
       <div id="taller-list-view">
         <p class="section-label">En preparación</p>
         <div id="taller-list"></div>
-        <button class="btn-secondary" style="margin-top:8px" onclick="tallerNuevo()">+ Nuevo post</button>
+        <button class="btn-secondary" style="margin-top:8px" id="btn-taller-nuevo">+ Nuevo post</button>
       </div>
       <div id="taller-edit-view" style="display:none">
-        <button class="btn-back" onclick="tallerVolver()">← Volver</button>
+        <button class="btn-back" id="btn-taller-volver">← Volver</button>
         <div class="field">
           <label>Título / tema del post</label>
           <input type="text" id="taller-titulo" placeholder="Ej: El paciente que sale sin entender nada">
@@ -156,46 +125,37 @@
         <p class="char-count" id="taller-chars">0 / 3.000 caracteres</p>
         <div class="field">
           <label>Estado</label>
-          <div class="pill-group" id="taller-estado-group">
-            <button class="pill active-green" onclick="tallerSetEstado('borrador',this)">Borrador</button>
-            <button class="pill" onclick="tallerSetEstado('listo',this)">Listo para publicar</button>
+          <div class="pill-group">
+            <button class="pill ag" data-estado="borrador" id="pill-borrador">Borrador</button>
+            <button class="pill" data-estado="listo" id="pill-listo">Listo para publicar</button>
           </div>
         </div>
         <div class="taller-actions">
-          <button class="btn-ghost" onclick="tallerCopiar()">📋 Copiar</button>
-          <button class="btn-primary" onclick="tallerGuardar()">Guardar →</button>
+          <button class="btn-ghost" id="btn-taller-copiar">📋 Copiar</button>
+          <button class="btn-primary" id="btn-taller-guardar">Guardar →</button>
         </div>
         <div class="sep"></div>
-        <button class="btn-secondary" onclick="tallerPublicar()" id="btn-publicar">✓ Marcar como publicado y archivar</button>
+        <button class="btn-secondary" id="btn-taller-publicar">✓ Marcar como publicado y archivar</button>
       </div>
     </div>
 
     <!-- PLANIFICADOS -->
     <div id="panel-planificados" class="panel">
-      <p class="section-label" style="margin-bottom:16px">Posts planificados · <span id="plan-count">0</span> ideas</p>
+      <p class="section-label" style="margin-bottom:16px">Ciclo de publicaciones · <span id="plan-count">0</span> temas</p>
       <div id="plan-list"></div>
-      <button class="btn-secondary" style="margin-top:8px" onclick="planNuevo()">+ Añadir idea planificada</button>
       <div id="plan-form" style="display:none;margin-top:16px">
         <div class="card" style="padding:20px">
           <div class="field">
-            <label>Tema / título</label>
+            <label>Tema / título <span class="req">*</span></label>
             <input type="text" id="plan-raw" placeholder="Ej: La brecha digital del paciente mayor">
           </div>
           <div class="field">
             <label>Categoría</label>
             <div class="cat-grid" id="plan-cat-grid"></div>
           </div>
-          <div class="field">
-            <label>¿A quién va dirigido?</label>
-            <div class="pill-group" id="plan-audiencia-group">
-              <button class="pill active-purple" onclick="planSetAudiencia('paciente',this)">👤 Paciente</button>
-              <button class="pill" onclick="planSetAudiencia('profesional',this)">🩺 Profesional</button>
-              <button class="pill" onclick="planSetAudiencia('ambos',this)">👥 Ambos</button>
-            </div>
-          </div>
           <div style="display:flex;gap:10px">
-            <button class="btn-ghost" style="flex:1" onclick="planCancelar()">Cancelar</button>
-            <button class="btn-primary" style="flex:2" onclick="planGuardar()">Guardar →</button>
+            <button class="btn-ghost" style="flex:1" id="btn-plan-cancelar">Cancelar</button>
+            <button class="btn-primary" style="flex:2" id="btn-plan-guardar">Guardar →</button>
           </div>
         </div>
       </div>
@@ -207,7 +167,7 @@
         <label>Apunta algo rápido <span class="req">*</span></label>
         <textarea id="idea-text" rows="4" placeholder="Anota la situación tal como la recuerdas. Sin estructura, sin filtros."></textarea>
       </div>
-      <button class="btn-primary" onclick="ideaGuardar()">Guardar nota →</button>
+      <button class="btn-primary" id="btn-idea-guardar">Guardar nota →</button>
       <div class="sep"></div>
       <p class="section-label">Notas guardadas</p>
       <div id="ideas-list"></div>
@@ -231,7 +191,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ── Firebase config ──
 const firebaseConfig = {
   apiKey: "AIzaSyBbSbPi3ukryr5q_QlckNm3zXP6iLXgF1A",
   authDomain: "diario-farmacia.firebaseapp.com",
@@ -244,7 +203,6 @@ const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 const DOC_REF = doc(db, 'diario', 'datos');
 
-// ── Categorías ──
 const CATS = [
   { id:'paciente',   label:'El paciente desinformado', emoji:'💊', color:'#e8f4f0', accent:'#2d8a6e', desc:'Dudas de medicación, lo que nadie explicó en consulta' },
   { id:'burocracia', label:'Burocracia sanitaria',      emoji:'📋', color:'#f0f0f8', accent:'#5a4fcf', desc:'Recetas, visados, problemas con el sistema' },
@@ -253,28 +211,33 @@ const CATS = [
   { id:'espacio',    label:'Diseño y espacio',          emoji:'🪟', color:'#f0f8ff', accent:'#1a6fa8', desc:'Escaparate, merchandising, orden y creatividad visual' },
 ];
 
+const HASHTAGS_COMUNES = '#Farmacia #FarmacéuticaComunitaria #OficinaDeFarmacia #FarmaciaSinFiltros';
+const HASHTAGS_BLOQUE = { paciente:'#PacienteInformado', burocracia:'#TrabasEnFarmacia', mostrador:'#DetrásDeMostrador', comercial:'#ComprasEnFarmacia', espacio:'#EspacioEnFarmacia' };
+
+const CICLO = ['paciente','mostrador','espacio','comercial','paciente','mostrador','espacio','burocracia'];
+const CICLO_VENTANA = 16;
+
 const INITIAL_PLAN = [
-  { num:1,  raw:'El paciente que sale de consulta sin entender nada', category:'paciente', audiencia:'paciente' },
-  { num:2,  raw:'Lo que pasa en los 3 minutos en el mostrador', category:'mostrador', audiencia:'ambos' },
-  { num:3,  raw:'La receta que no llega, el visado que tarda', category:'burocracia', audiencia:'paciente' },
-  { num:4,  raw:'Escaparate abierto o cerrado', category:'espacio', audiencia:'profesional' },
-  { num:5,  raw:'El comercial que parece buena gente pero engaña', category:'comercial', audiencia:'profesional' },
-  { num:6,  raw:'Receta obligatoria: no es un obstáculo, es una protección', category:'burocracia', audiencia:'paciente' },
-  { num:7,  raw:'Aprendizaje continuo: descubrir que estabas equivocada y rectificar', category:'mostrador', audiencia:'ambos' },
-  { num:8,  raw:'Los problemas de la receta electrónica de MUFACE', category:'burocracia', audiencia:'paciente' },
-  { num:9,  raw:'La saturación de productos en la farmacia', category:'espacio', audiencia:'ambos' },
-  { num:10, raw:'El comercial que es un vínculo propio más que el laboratorio al que representa', category:'comercial', audiencia:'profesional' },
-  { num:11, raw:'No es lo que pides, es lo que necesitas', category:'paciente', audiencia:'paciente' },
-  { num:12, raw:'Encargos sin recoger', category:'mostrador', audiencia:'ambos' },
-  { num:13, raw:'El control de psicotrópicos', category:'burocracia', audiencia:'ambos' },
-  { num:14, raw:'Por qué coloco lo que coloco en el escaparate', category:'espacio', audiencia:'ambos' },
-  { num:15, raw:'El comercial agresivo que consigue el efecto contrario', category:'comercial', audiencia:'profesional' },
-  { num:16, raw:'La brecha digital del paciente mayor y sus medicamentos', category:'paciente', audiencia:'paciente' },
-  { num:17, raw:'La búsqueda del medicamento con problemas de abastecimiento', category:'mostrador', audiencia:'ambos' },
-  { num:18, raw:'Estupefacientes: el protocolo detrás de cada dispensación', category:'burocracia', audiencia:'ambos' },
-  { num:19, raw:'El halago que pretende abrir la puerta', category:'comercial', audiencia:'profesional' },
-  { num:20, raw:'La incongruencia de la firma electrónica que no vale en las recetas médicas', category:'burocracia', audiencia:'ambos' },
-  { num:21, raw:'El material de marketing del laboratorio: ¿decoro yo o decoran ellos?', category:'espacio', audiencia:'profesional' },
+  { num:1,  raw:'El paciente que sale de consulta sin entender nada',                             category:'paciente' },
+  { num:2,  raw:'Lo que pasa en los 3 minutos en el mostrador',                                   category:'mostrador' },
+  { num:3,  raw:'Escaparate abierto o cerrado',                                                   category:'espacio' },
+  { num:4,  raw:'El comercial que parece buena gente pero engaña',                                category:'comercial' },
+  { num:5,  raw:'Receta obligatoria: no es un obstáculo, es una protección',                      category:'paciente' },
+  { num:6,  raw:'Aprendizaje continuo: descubrir que estabas equivocada y rectificar',            category:'mostrador' },
+  { num:7,  raw:'La saturación de productos en la farmacia',                                      category:'espacio' },
+  { num:8,  raw:'La receta que no llega, el visado que tarda',                                    category:'burocracia' },
+  { num:9,  raw:'No es lo que pides, es lo que necesitas',                                        category:'paciente' },
+  { num:10, raw:'Encargos sin recoger',                                                           category:'mostrador' },
+  { num:11, raw:'Por qué coloco lo que coloco en el escaparate',                                  category:'espacio' },
+  { num:12, raw:'El comercial que es un vínculo propio más que el laboratorio al que representa', category:'comercial' },
+  { num:13, raw:'La brecha digital del paciente mayor y sus medicamentos',                        category:'paciente' },
+  { num:14, raw:'La búsqueda del medicamento con problemas de abastecimiento',                    category:'mostrador' },
+  { num:15, raw:'El material de marketing del laboratorio: ¿decoro yo o decoran ellos?',          category:'espacio' },
+  { num:16, raw:'Los problemas de la receta electrónica de MUFACE',                               category:'burocracia' },
+  { num:20, raw:'El comercial agresivo que consigue el efecto contrario',                         category:'comercial' },
+  { num:24, raw:'El control de psicotrópicos',                                                    category:'burocracia' },
+  { num:28, raw:'El halago que pretende abrir la puerta',                                         category:'comercial' },
+  { num:32, raw:'Estupefacientes: el protocolo detrás de cada dispensación',                      category:'burocracia' },
 ];
 
 const PRES_POST = `Solo soy una farmacéutica de oficina de farmacia que lleva 25 años detrás del mostrador. Desde hace un tiempo me ronda en la cabeza dónde, cómo y con quién compartir situaciones, sentimientos y otras cosas de mi día a día —buenas y malas— relacionadas con los pacientes, con el sistema o con cualquier cosa de mi profesión.
@@ -283,102 +246,27 @@ En veinticinco años han cambiado muchas cosas. Llegamos casi de la mano los gen
 
 En fin. Hay mucha experiencia, muchas anécdotas, mucho trabajo realizado, muchas alegrías, muchas lágrimas y mucha, mucha gente que ha pasado por nosotros dejando una huella que nos va cambiando con el paso de los años.
 
-¡Mira tu público objetivo! ¡Programa las publicaciones! ¡Sé constante! Yo de momento voy a empezar y a ver qué tal va la cosa.
-
-#Farmacia #FarmacéuticaComunitaria #OficinaDeFarmacia #FarmaciaPura`;
+¡Mira tu público objetivo! ¡Programa las publicaciones! ¡Sé constante! Yo de momento voy a empezar y a ver qué tal va la cosa.`;
 
 // ── Estado ──
 let state = { taller:[], planificados:[], ideas:[], archivo:[] };
 let syncTimeout = null;
 let lastCloudUpdate = 0;
-let isSyncing = false;
 
-// ── localStorage ──
 function saveLocal() { try { localStorage.setItem('farma_v2', JSON.stringify(state)); } catch(e){} }
 function loadLocal() { try { const d=localStorage.getItem('farma_v2'); if(d) state=JSON.parse(d); } catch(e){} }
 
-// ── Cloud sync ──
 async function pushToCloud() {
-  if (isSyncing) return;
-  isSyncing = true;
   try {
     const ts = Date.now();
     await setDoc(DOC_REF, { data: JSON.stringify(state), updated: ts });
     lastCloudUpdate = ts;
     setSyncStatus('☁ Sincronizado');
   } catch(e) { setSyncStatus('⚠ Sin conexión'); }
-  isSyncing = false;
 }
 
-function schedulePush() {
-  saveLocal();
-  clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(pushToCloud, 1500);
-}
-
-function setSyncStatus(msg) {
-  const el = document.getElementById('sync-status');
-  if (el) el.textContent = msg;
-}
-
-// ── Init ──
-async function init() {
-  loadLocal();
-  setSyncStatus('☁ Cargando...');
-  try {
-    const snap = await getDoc(DOC_REF);
-    if (snap.exists()) {
-      const d = JSON.parse(snap.data().data);
-      if (d.taller && d.planificados) {
-        state = d;
-        lastCloudUpdate = snap.data().updated || 0;
-        saveLocal();
-        setSyncStatus('☁ Sincronizado');
-      }
-    } else {
-      // primera vez
-      if (state.planificados.length === 0) state.planificados = INITIAL_PLAN.map((p,i)=>({...p,id:i+1}));
-      if (state.taller.length === 0) state.taller = [{id:Date.now(),titulo:'Post de presentación',category:'paciente',texto:PRES_POST,estado:'listo'}];
-      saveLocal();
-      await pushToCloud();
-    }
-  } catch(e) { setSyncStatus('⚠ Sin conexión'); }
-
-  renderTaller();
-
-  // Escuchar cambios en tiempo real
-  onSnapshot(DOC_REF, (snap) => {
-    if (!snap.exists()) return;
-    try {
-      const cloudTs = snap.data().updated || 0;
-      if (cloudTs > lastCloudUpdate + 2000) {
-        lastCloudUpdate = cloudTs;
-        const d = JSON.parse(snap.data().data);
-        if (!d.taller) return;
-        state = d;
-        saveLocal();
-        refreshActivePanel();
-        showToast('☁ Actualizado desde otro dispositivo');
-        setSyncStatus('☁ Sincronizado');
-      }
-    } catch(e) {}
-  });
-}
-
-function refreshActivePanel() {
-  const a = document.querySelector('.panel.active');
-  if (!a) return;
-  const id = a.id.replace('panel-','');
-  if (id==='taller') renderTaller();
-  if (id==='planificados') renderPlan();
-  if (id==='ideas') renderIdeas();
-  if (id==='archivo') renderArchivo();
-}
-
-// ── Utils ──
-function getCat(id) { return CATS.find(c=>c.id===id)||CATS[0]; }
-function catBadge(catId) { const c=getCat(catId); return `<span class="cat-badge" style="background:${c.color};color:${c.accent}">${c.emoji} ${c.label}</span>`; }
-function statusBadge(e) { const m={borrador:'Borrador',listo:'Listo ✓',publicado:'Publicado'}; return `<span class="status-badge status-${e}">${m[e]||e}</span>`; }
+function schedulePush() { saveLocal(); clearTimeout(syncTimeout); syncTimeout = setTimeout(pushToCloud, 1500); }
+function setSyncStatus(msg) { const el=document.getElementById('sync-status'); if(el) el.textContent=msg; }
 
 function showToast(msg) {
   const t=document.getElementById('toast');
@@ -386,250 +274,269 @@ function showToast(msg) {
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-const HASHTAGS_COMUNES = '#Farmacia #FarmacéuticaComunitaria #OficinaDeFarmacia #FarmaciaSinFiltros';
-const HASHTAGS_BLOQUE = {
-  paciente:   '#PacienteInformado',
-  burocracia: '#TrabasEnFarmacia',
-  mostrador:  '#DetrásDeMostrador',
-  comercial:  '#ComprasEnFarmacia',
-  espacio:    '#EspacioEnFarmacia',
-};
+function getCat(id) { return CATS.find(c=>c.id===id)||CATS[0]; }
+function catBadge(catId) { const c=getCat(catId); return `<span class="cat-badge" style="background:${c.color};color:${c.accent}">${c.emoji} ${c.label}</span>`; }
+function statusBadge(e) { const m={borrador:'Borrador',listo:'Listo ✓'}; return `<span class="status-badge status-${e}">${m[e]||e}</span>`; }
 
-function getHashtags(catId) {
-  const bloque = HASHTAGS_BLOQUE[catId] || '';
-  return bloque ? `${HASHTAGS_COMUNES} ${bloque}` : HASHTAGS_COMUNES;
-}
-
-function copyTextWithHashtags(text, catId) {
-  const hashtags = getHashtags(catId);
-  // Si el texto ya lleva hashtags al final, no los duplicamos
-  const textoLimpio = text.replace(/(\n+#[\w#\s\u00C0-\u024F]+)$/,'').trimEnd();
-  const final = `${textoLimpio}\n\n${hashtags}`;
+function getHashtags(catId) { const b=HASHTAGS_BLOQUE[catId]||''; return b?`${HASHTAGS_COMUNES} ${b}`:HASHTAGS_COMUNES; }
+function copyWithHashtags(text, catId) {
+  const clean = text.replace(/\n+#[\w#\s\u00C0-\u024F\u00f1\u00d1]+$/,'').trimEnd();
+  const final = `${clean}\n\n${getHashtags(catId)}`;
   navigator.clipboard.writeText(final).then(()=>showToast('✓ Copiado con hashtags')).catch(()=>showToast('✓ Copiado'));
 }
 
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(()=>showToast('✓ Copiado al portapapeles')).catch(()=>showToast('✓ Copiado'));
-}
-
 // ── Tabs ──
-window.showTab = function(id, btn) {
+document.addEventListener('DOMContentLoaded', () => { setupUI(); init(); });
+function setupUI() {
+document.getElementById('main-tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn'); if (!btn) return;
+  const tab = btn.dataset.tab;
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(id==='taller') renderTaller();
-  if(id==='planificados') renderPlan();
-  if(id==='ideas') renderIdeas();
-  if(id==='archivo') renderArchivo();
-}
+  document.getElementById('panel-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='taller') renderTaller();
+  if(tab==='planificados') renderPlan();
+  if(tab==='ideas') renderIdeas();
+  if(tab==='archivo') renderArchivo();
+});
 
 // ── Cat grid ──
-function renderCatGrid(containerId, selectedId, onSelectFn) {
-  const el=document.getElementById(containerId);
-  if(!el) return;
-  el.innerHTML=CATS.map(c=>`<button class="cat-btn" id="${containerId}-${c.id}"
-    style="border-color:${selectedId===c.id?c.accent:'#dfd8ce'};background:${selectedId===c.id?c.color:'#fff'};color:${selectedId===c.id?c.accent:'#555'};font-weight:${selectedId===c.id?'600':'400'}"
-    onclick="window._catSelect('${c.id}','${containerId}','${onSelectFn}')">
+let _catCallbacks = {};
+function renderCatGrid(containerId, selectedId, cbKey) {
+  const el=document.getElementById(containerId); if(!el) return;
+  el.innerHTML=CATS.map(c=>`<button class="cat-btn" data-catid="${c.id}" data-grid="${containerId}"
+    style="border-color:${selectedId===c.id?c.accent:'#dfd8ce'};background:${selectedId===c.id?c.color:'#fff'};color:${selectedId===c.id?c.accent:'#555'};font-weight:${selectedId===c.id?'600':'400'}">
     <span class="cat-name">${c.emoji} ${c.label}</span>
     <span class="cat-desc">${c.desc}</span>
   </button>`).join('');
-}
-
-window._catSelect = function(id, gridId, fnName) {
-  CATS.forEach(c=>{
-    const b=document.getElementById(gridId+'-'+c.id); if(!b) return;
-    const a=c.id===id;
-    b.style.borderColor=a?c.accent:'#dfd8ce'; b.style.background=a?c.color:'#fff';
-    b.style.color=a?c.accent:'#555'; b.style.fontWeight=a?'600':'400';
-  });
-  if(fnName==='taller') { window._tallerCat=id; }
-  if(fnName==='plan')   { window._planCat=id; }
+  el.addEventListener('click', e => {
+    const btn=e.target.closest('.cat-btn'); if(!btn) return;
+    const id=btn.dataset.catid;
+    el.querySelectorAll('.cat-btn').forEach(b=>{
+      const c=getCat(b.dataset.catid); const a=b.dataset.catid===id;
+      b.style.borderColor=a?c.accent:'#dfd8ce'; b.style.background=a?c.color:'#fff';
+      b.style.color=a?c.accent:'#555'; b.style.fontWeight=a?'600':'400';
+    });
+    if(_catCallbacks[cbKey]) _catCallbacks[cbKey](id);
+  }, {once:false});
 }
 
 // ══════════════════════
 // TALLER
 // ══════════════════════
 let tallerCurrentId = null;
-window._tallerCat = '';
+let tallerCat = '';
 let tallerEstado = 'borrador';
+
+_catCallbacks['taller'] = id => { tallerCat = id; };
+
+document.getElementById('btn-taller-nuevo').addEventListener('click', () => {
+  tallerCurrentId=null; tallerCat=''; tallerEstado='borrador';
+  document.getElementById('taller-titulo').value='';
+  document.getElementById('taller-textarea').value='';
+  document.getElementById('taller-chars').textContent='0 / 3.000 caracteres';
+  renderCatGrid('taller-cat-grid','','taller');
+  renderTallerEstado();
+  document.getElementById('btn-taller-publicar').style.display='none';
+  document.getElementById('taller-list-view').style.display='none';
+  document.getElementById('taller-edit-view').style.display='block';
+});
+
+document.getElementById('btn-taller-volver').addEventListener('click', tallerVolver);
+document.getElementById('btn-taller-guardar').addEventListener('click', tallerGuardar);
+document.getElementById('btn-taller-copiar').addEventListener('click', () => {
+  copyWithHashtags(document.getElementById('taller-textarea').value, tallerCat || (tallerCurrentId ? (state.taller.find(t=>t.id===tallerCurrentId)||{}).category : ''));
+});
+document.getElementById('btn-taller-publicar').addEventListener('click', tallerPublicar);
+document.getElementById('pill-borrador').addEventListener('click', () => { tallerEstado='borrador'; renderTallerEstado(); });
+document.getElementById('pill-listo').addEventListener('click', () => { tallerEstado='listo'; renderTallerEstado(); });
+document.getElementById('taller-textarea').addEventListener('input', () => {
+  const len=document.getElementById('taller-textarea').value.length;
+  const el=document.getElementById('taller-chars');
+  el.textContent=`${len} / 3.000 caracteres`; el.classList.toggle('over',len>2800);
+});
+
+function renderTallerEstado() {
+  document.getElementById('pill-borrador').classList.toggle('ag', tallerEstado==='borrador');
+  document.getElementById('pill-listo').classList.toggle('ag', tallerEstado==='listo');
+}
 
 function renderTaller() {
   const list=document.getElementById('taller-list'); if(!list) return;
   if(state.taller.length===0){
     list.innerHTML='<div class="empty-state"><div class="emoji">✏️</div><p>Aquí elaboras el texto completo de cada post antes de publicarlo.</p></div>'; return;
   }
-  list.innerHTML=state.taller.map(t=>`<div class="card">
+  list.innerHTML = state.taller.map(t=>`<div class="card">
     <div class="card-meta">${catBadge(t.category)} ${statusBadge(t.estado)}</div>
     <p class="card-text" style="font-weight:600;margin-bottom:4px">${t.titulo||'Sin título'}</p>
     <p class="card-text" style="font-size:13px;color:#777;margin-bottom:10px">${(t.texto||'').slice(0,80)}…</p>
     <div class="card-actions">
-      <button class="btn-sm" onclick="window.tallerEditar(${t.id})">Editar →</button>
-      <button class="btn-sm-danger" onclick="window.tallerEliminar(${t.id})">Eliminar</button>
+      <button class="btn-sm" data-action="editar" data-id="${t.id}">Editar →</button>
+      <button class="btn-sm-danger" data-action="eliminar" data-id="${t.id}">Eliminar</button>
     </div>
   </div>`).join('');
-}
 
-window.tallerNuevo = function() {
-  tallerCurrentId=null; window._tallerCat=''; tallerEstado='borrador';
-  document.getElementById('taller-titulo').value='';
-  document.getElementById('taller-textarea').value='';
-  document.getElementById('taller-chars').textContent='0 / 3.000 caracteres';
-  renderCatGrid('taller-cat-grid','','taller');
-  renderTallerEstado();
-  document.getElementById('taller-list-view').style.display='none';
-  document.getElementById('taller-edit-view').style.display='block';
-  document.getElementById('btn-publicar').style.display='none';
-}
-
-window.tallerEditar = function(id) {
-  const t=state.taller.find(x=>x.id===id); if(!t) return;
-  tallerCurrentId=id; window._tallerCat=t.category; tallerEstado=t.estado;
-  document.getElementById('taller-titulo').value=t.titulo||'';
-  document.getElementById('taller-textarea').value=t.texto||'';
-  updateTallerChars();
-  renderCatGrid('taller-cat-grid',window._tallerCat,'taller');
-  renderTallerEstado();
-  document.getElementById('taller-list-view').style.display='none';
-  document.getElementById('taller-edit-view').style.display='block';
-  document.getElementById('btn-publicar').style.display='block';
-}
-
-window.tallerSetEstado = function(val) { tallerEstado=val; renderTallerEstado(); }
-function renderTallerEstado() {
-  document.querySelectorAll('#taller-estado-group .pill').forEach(b=>{
-    b.classList.remove('active-green');
-    if((b.textContent.includes('Borrador')&&tallerEstado==='borrador')||(b.textContent.includes('Listo')&&tallerEstado==='listo')) b.classList.add('active-green');
+  list.querySelectorAll('[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      if(btn.dataset.action==='editar') tallerEditar(id);
+      if(btn.dataset.action==='eliminar') {
+        if(!confirm('¿Eliminar este post?')) return;
+        state.taller=state.taller.filter(x=>x.id!==id);
+        schedulePush(); renderTaller(); showToast('Eliminado');
+      }
+    });
   });
 }
 
-function updateTallerChars() {
-  const len=document.getElementById('taller-textarea').value.length;
-  const el=document.getElementById('taller-chars');
-  el.textContent=`${len} / 3.000 caracteres`; el.classList.toggle('over',len>2800);
+function tallerEditar(id) {
+  const t=state.taller.find(x=>x.id===id); if(!t) return;
+  tallerCurrentId=id; tallerCat=t.category; tallerEstado=t.estado;
+  document.getElementById('taller-titulo').value=t.titulo||'';
+  document.getElementById('taller-textarea').value=t.texto||'';
+  const len=(t.texto||'').length;
+  document.getElementById('taller-chars').textContent=`${len} / 3.000 caracteres`;
+  renderCatGrid('taller-cat-grid',tallerCat,'taller');
+  renderTallerEstado();
+  document.getElementById('btn-taller-publicar').style.display='block';
+  document.getElementById('taller-list-view').style.display='none';
+  document.getElementById('taller-edit-view').style.display='block';
 }
-document.getElementById('taller-textarea').addEventListener('input', updateTallerChars);
 
-window.tallerGuardar = function() {
+function tallerGuardar() {
   const titulo=document.getElementById('taller-titulo').value.trim();
   const texto=document.getElementById('taller-textarea').value.trim();
   if(!texto){showToast('El texto no puede estar vacío');return;}
   if(tallerCurrentId) {
-    state.taller=state.taller.map(t=>t.id===tallerCurrentId?{...t,titulo,category:window._tallerCat||t.category,texto,estado:tallerEstado}:t);
+    state.taller=state.taller.map(t=>t.id===tallerCurrentId?{...t,titulo,category:tallerCat||t.category,texto,estado:tallerEstado}:t);
   } else {
-    state.taller.push({id:Date.now(),titulo:titulo||'Sin título',category:window._tallerCat||'paciente',texto,estado:tallerEstado});
+    state.taller.push({id:Date.now(),titulo:titulo||'Sin título',category:tallerCat||'paciente',texto,estado:tallerEstado});
   }
   schedulePush(); tallerVolver(); showToast('✓ Post guardado');
 }
 
-window.tallerCopiar = function() {
-  const texto = document.getElementById('taller-textarea').value;
-  const cat = window._tallerCat || (tallerCurrentId ? (state.taller.find(t=>t.id===tallerCurrentId)||{}).category : '');
-  copyTextWithHashtags(texto, cat);
-}
-
-window.tallerPublicar = function() {
+function tallerPublicar() {
   const t=state.taller.find(x=>x.id===tallerCurrentId); if(!t) return;
   const titulo=document.getElementById('taller-titulo').value.trim()||t.titulo;
   const texto=document.getElementById('taller-textarea').value.trim()||t.texto;
-  state.archivo.push({id:Date.now(),titulo,category:window._tallerCat||t.category,texto,fechaPub:new Date().toLocaleDateString('es-ES')});
+  state.archivo.push({id:Date.now(),titulo,category:tallerCat||t.category,texto,fechaPub:new Date().toLocaleDateString('es-ES')});
   state.taller=state.taller.filter(x=>x.id!==tallerCurrentId);
   schedulePush(); tallerVolver(); showToast('✓ Archivado como publicado');
 }
 
-window.tallerEliminar = function(id) {
-  if(!confirm('¿Eliminar este post del taller?')) return;
-  state.taller=state.taller.filter(x=>x.id!==id);
-  schedulePush(); renderTaller(); showToast('Eliminado');
-}
-
-window.tallerVolver = function() {
+function tallerVolver() {
   document.getElementById('taller-list-view').style.display='block';
   document.getElementById('taller-edit-view').style.display='none';
   tallerCurrentId=null; renderTaller();
 }
 
 // ══════════════════════
-// PLANIFICADOS
+// PLANIFICADOS — ciclo
 // ══════════════════════
-window._planCat=''; let planAudiencia='paciente';
+let planFormSlot = null;
+let planCat = '';
+_catCallbacks['plan'] = id => { planCat = id; };
+
+function getCicloSlots() {
+  const maxNum = state.planificados.length>0 ? Math.max(...state.planificados.map(p=>p.num||0)) : 0;
+  const total = Math.max(maxNum + CICLO_VENTANA, CICLO_VENTANA + 1);
+  const slots = [];
+  for(let i=0; i<=total; i++) {
+    const cat = i===0 ? 'paciente' : CICLO[(i-1)%CICLO.length];
+    const entry = state.planificados.find(p=>p.num===i) || null;
+    slots.push({num:i, cat, entry});
+  }
+  return slots;
+}
 
 function renderPlan() {
   const list=document.getElementById('plan-list'); if(!list) return;
   document.getElementById('plan-count').textContent=state.planificados.length;
-  if(state.planificados.length===0){
-    list.innerHTML='<div class="empty-state"><div class="emoji">📅</div><p>Aquí van los posts que tienes pensados, en el orden en que quieres publicarlos.</p></div>'; return;
-  }
-  list.innerHTML=state.planificados.map((p,i)=>`<div class="card">
-    <div class="card-meta">
-      <span class="num-badge">${p.num||i+1}</span>
-      ${catBadge(p.category)}
-      <div style="margin-left:auto;display:flex;gap:2px">
-        ${i>0?`<button class="reorder-btn" onclick="window.planMover(${p.id},-1)">↑</button>`:''}
-        ${i<state.planificados.length-1?`<button class="reorder-btn" onclick="window.planMover(${p.id},1)">↓</button>`:''}
-      </div>
-    </div>
-    <p class="card-text">${p.raw}</p>
-    <div class="card-actions">
-      <button class="btn-sm" onclick="window.planAlTaller(${p.id})">Pasar al Taller →</button>
-      <button class="btn-sm-danger" onclick="window.planEliminar(${p.id})">Eliminar</button>
-    </div>
-  </div>`).join('');
-}
+  const slots=getCicloSlots();
 
-window.planNuevo = function() {
-  window._planCat=''; planAudiencia='paciente';
-  document.getElementById('plan-raw').value='';
-  renderCatGrid('plan-cat-grid','','plan');
-  renderPlanAudiencia();
-  document.getElementById('plan-form').style.display='block';
-}
-window.planCancelar = function() { document.getElementById('plan-form').style.display='none'; }
-window.planSetAudiencia = function(val) { planAudiencia=val; renderPlanAudiencia(); }
-function renderPlanAudiencia() {
-  document.querySelectorAll('#plan-audiencia-group .pill').forEach(b=>{
-    const v=b.getAttribute('onclick').match(/'(\w+)'/)?.[1];
-    b.classList.toggle('active-purple',v===planAudiencia);
+  list.innerHTML=slots.map(slot=>{
+    const c=getCat(slot.cat);
+    const lbl=slot.num===0?'0 · Presentación':slot.num;
+    if(slot.entry){
+      return `<div class="card" style="border-left:3px solid ${c.accent}">
+        <div class="card-meta"><span class="num-badge" style="background:${c.accent}">${lbl}</span>${catBadge(slot.cat)}</div>
+        <p class="card-text">${slot.entry.raw}</p>
+        <div class="card-actions">
+          <button class="btn-sm" data-action="altaller" data-id="${slot.entry.id}">Pasar al Taller →</button>
+          <button class="btn-sm-danger" data-action="eliminar" data-id="${slot.entry.id}">Eliminar</button>
+        </div>
+      </div>`;
+    } else {
+      return `<div class="card" style="border-left:3px solid ${c.accent};background:${c.color};opacity:0.85">
+        <div class="card-meta"><span class="num-badge" style="background:${c.accent}">${lbl}</span><span class="cat-badge" style="background:${c.color};color:${c.accent}">${c.emoji} ${c.label}</span></div>
+        <p style="font-size:12px;color:${c.accent};font-style:italic;margin-bottom:10px">Sin tema todavía</p>
+        <button class="btn-sm" style="border-color:${c.accent};color:${c.accent}" data-action="addslot" data-num="${slot.num}" data-cat="${slot.cat}">+ Añadir tema</button>
+      </div>`;
+    }
+  }).join('');
+
+  list.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const action=btn.dataset.action;
+      if(action==='altaller'){
+        const p=state.planificados.find(x=>x.id===parseInt(btn.dataset.id)); if(!p) return;
+        state.taller.push({id:Date.now(),titulo:p.raw,category:p.category,texto:'',estado:'borrador'});
+        state.planificados=state.planificados.filter(x=>x.id!==p.id);
+        schedulePush(); renderPlan(); showToast('✓ Movido al Taller');
+        document.querySelector('[data-tab="taller"]').click();
+      }
+      if(action==='eliminar'){
+        if(!confirm('¿Eliminar este tema? El hueco quedará vacío.')) return;
+        state.planificados=state.planificados.filter(x=>x.id!==parseInt(btn.dataset.id));
+        schedulePush(); renderPlan(); showToast('Eliminado');
+      }
+      if(action==='addslot'){
+        planFormSlot=parseInt(btn.dataset.num);
+        planCat=btn.dataset.cat;
+        document.getElementById('plan-raw').value='';
+        renderCatGrid('plan-cat-grid',planCat,'plan');
+        document.getElementById('plan-form').style.display='block';
+        document.getElementById('plan-form').scrollIntoView({behavior:'smooth'});
+      }
+    });
   });
 }
-window.planGuardar = function() {
+
+document.getElementById('btn-plan-cancelar').addEventListener('click',()=>{
+  document.getElementById('plan-form').style.display='none'; planFormSlot=null;
+});
+document.getElementById('btn-plan-guardar').addEventListener('click',()=>{
   const raw=document.getElementById('plan-raw').value.trim();
   if(!raw){showToast('Escribe el tema del post');return;}
-  const nextNum=state.planificados.length>0?Math.max(...state.planificados.map(p=>p.num||0))+1:1;
-  state.planificados.push({id:Date.now(),num:nextNum,raw,category:window._planCat||'paciente',audiencia:planAudiencia});
-  schedulePush(); window.planCancelar(); renderPlan(); showToast('✓ Añadido a planificados');
-}
-window.planMover = function(id,dir) {
-  const idx=state.planificados.findIndex(p=>p.id===id); if(idx<0) return;
-  const ni=idx+dir; if(ni<0||ni>=state.planificados.length) return;
-  [state.planificados[idx],state.planificados[ni]]=[state.planificados[ni],state.planificados[idx]];
-  state.planificados.forEach((p,i)=>p.num=i+1);
-  schedulePush(); renderPlan();
-}
-window.planAlTaller = function(id) {
-  const p=state.planificados.find(x=>x.id===id); if(!p) return;
-  state.taller.push({id:Date.now(),titulo:p.raw,category:p.category,texto:'',estado:'borrador'});
-  state.planificados=state.planificados.filter(x=>x.id!==id);
-  state.planificados.forEach((p,i)=>p.num=i+1);
-  schedulePush(); renderPlan(); showToast('✓ Movido al Taller');
-  document.querySelectorAll('.tab-btn')[0].click();
-}
-window.planEliminar = function(id) {
-  if(!confirm('¿Eliminar esta idea?')) return;
-  state.planificados=state.planificados.filter(x=>x.id!==id);
-  state.planificados.forEach((p,i)=>p.num=i+1);
-  schedulePush(); renderPlan(); showToast('Eliminado');
-}
+  const cat=planCat||'paciente';
+  if(planFormSlot!==null){
+    const existing=state.planificados.find(p=>p.num===planFormSlot);
+    if(existing){
+      state.planificados=state.planificados.map(p=>p.num===planFormSlot?{...p,raw,category:cat}:p);
+    } else {
+      state.planificados.push({id:Date.now(),num:planFormSlot,raw,category:cat});
+    }
+  } else {
+    const used=new Set(state.planificados.map(p=>p.num));
+    let n=1; while(used.has(n)) n++;
+    state.planificados.push({id:Date.now(),num:n,raw,category:cat});
+  }
+  schedulePush();
+  document.getElementById('plan-form').style.display='none'; planFormSlot=null;
+  renderPlan(); showToast('✓ Tema añadido');
+});
 
 // ══════════════════════
 // IDEAS
 // ══════════════════════
-window.ideaGuardar = function() {
+document.getElementById('btn-idea-guardar').addEventListener('click',()=>{
   const text=document.getElementById('idea-text').value.trim(); if(!text) return;
   state.ideas.unshift({id:Date.now(),text,date:new Date().toLocaleDateString('es-ES')});
   document.getElementById('idea-text').value='';
   schedulePush(); renderIdeas(); showToast('✓ Nota guardada');
-}
+});
+
 function renderIdeas() {
   const list=document.getElementById('ideas-list'); if(!list) return;
   if(state.ideas.length===0){list.innerHTML='<div class="empty-state" style="padding:30px 0"><p>Aquí van las notas rápidas del mostrador.</p></div>';return;}
@@ -637,28 +544,31 @@ function renderIdeas() {
     <p class="quicknote-date">${n.date}</p>
     <p class="quicknote-text">${n.text}</p>
     <div class="card-actions">
-      <button class="btn-sm" onclick="window.ideaAlTaller(${n.id})">Pasar al Taller →</button>
-      <button class="btn-sm" onclick="window.ideaAPlan(${n.id})">Pasar a Planificados →</button>
-      <button class="btn-sm-danger" onclick="window.ideaEliminar(${n.id})">Descartar</button>
+      <button class="btn-sm" data-action="altaller" data-id="${n.id}">Pasar al Taller →</button>
+      <button class="btn-sm" data-action="aplan" data-id="${n.id}">Pasar a Planificados →</button>
+      <button class="btn-sm-danger" data-action="eliminar" data-id="${n.id}">Descartar</button>
     </div>
   </div>`).join('');
-}
-window.ideaAlTaller = function(id) {
-  const n=state.ideas.find(x=>x.id===id); if(!n) return;
-  state.taller.push({id:Date.now(),titulo:n.text.slice(0,60),category:'paciente',texto:n.text,estado:'borrador'});
-  state.ideas=state.ideas.filter(x=>x.id!==id);
-  schedulePush(); renderIdeas(); showToast('✓ Movida al Taller');
-}
-window.ideaAPlan = function(id) {
-  const n=state.ideas.find(x=>x.id===id); if(!n) return;
-  const nextNum=state.planificados.length>0?Math.max(...state.planificados.map(p=>p.num||0))+1:1;
-  state.planificados.push({id:Date.now(),num:nextNum,raw:n.text.slice(0,120),category:'paciente',audiencia:'ambos'});
-  state.ideas=state.ideas.filter(x=>x.id!==id);
-  schedulePush(); renderIdeas(); showToast('✓ Añadida a Planificados');
-}
-window.ideaEliminar = function(id) {
-  state.ideas=state.ideas.filter(x=>x.id!==id);
-  schedulePush(); renderIdeas();
+  list.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=parseInt(btn.dataset.id); const n=state.ideas.find(x=>x.id===id);
+      if(!n) return;
+      if(btn.dataset.action==='altaller'){
+        state.taller.push({id:Date.now(),titulo:n.text.slice(0,60),category:'paciente',texto:n.text,estado:'borrador'});
+        state.ideas=state.ideas.filter(x=>x.id!==id);
+        schedulePush(); renderIdeas(); showToast('✓ Movida al Taller');
+      }
+      if(btn.dataset.action==='aplan'){
+        const used=new Set(state.planificados.map(p=>p.num)); let nxt=1; while(used.has(nxt)) nxt++;
+        state.planificados.push({id:Date.now(),num:nxt,raw:n.text.slice(0,120),category:'paciente'});
+        state.ideas=state.ideas.filter(x=>x.id!==id);
+        schedulePush(); renderIdeas(); showToast('✓ Añadida a Planificados');
+      }
+      if(btn.dataset.action==='eliminar'){
+        state.ideas=state.ideas.filter(x=>x.id!==id); schedulePush(); renderIdeas();
+      }
+    });
+  });
 }
 
 // ══════════════════════
@@ -667,57 +577,111 @@ window.ideaEliminar = function(id) {
 function renderArchivo() {
   const list=document.getElementById('arch-list'); if(!list) return;
   document.getElementById('arch-count').textContent=state.archivo.length;
-  if(state.archivo.length===0){list.innerHTML='<div class="empty-state"><div class="emoji">📰</div><p>Aquí aparecerán los posts que marques como publicados.</p></div>';return;}
+  if(state.archivo.length===0){
+    list.innerHTML='<div class="empty-state"><div class="emoji">📰</div><p>Aquí aparecerán los posts que marques como publicados.</p></div>'; return;
+  }
   list.innerHTML=[...state.archivo].reverse().map(a=>`<div class="archive-card">
     <p class="pub-date">${a.fechaPub} · ${catBadge(a.category)}</p>
     <p class="pub-title">${a.titulo}</p>
     <p class="pub-preview" id="prev-${a.id}">${a.texto.slice(0,120)}…</p>
     <div class="pub-full" id="full-${a.id}">${a.texto}</div>
     <div style="display:flex;gap:12px;align-items:center">
-      <button class="btn-toggle" onclick="window.archToggle(${a.id})">Leer completo ↓</button>
-      <button class="btn-toggle" onclick="window.archCopiar(${a.id})">📋 Copiar</button>
+      <button class="btn-toggle" data-action="toggle" data-id="${a.id}">Leer completo ↓</button>
+      <button class="btn-toggle" data-action="copiar" data-id="${a.id}">📋 Copiar</button>
     </div>
   </div>`).join('');
-}
-window.archToggle = function(id) {
-  const full=document.getElementById('full-'+id);
-  const prev=document.getElementById('prev-'+id);
-  const expanded=full.classList.toggle('expanded');
-  if(prev) prev.style.display=expanded?'none':'block';
-  const btn=full.nextElementSibling?.querySelector('.btn-toggle');
-  if(btn) btn.textContent=expanded?'Cerrar ↑':'Leer completo ↓';
-}
-window.archCopiar = function(id) {
-  const a=state.archivo.find(x=>x.id===id);
-  if(a) copyTextWithHashtags(a.texto, a.category);
+  list.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id=parseInt(btn.dataset.id);
+      if(btn.dataset.action==='toggle'){
+        const full=document.getElementById('full-'+id); const prev=document.getElementById('prev-'+id);
+        const exp=full.classList.toggle('expanded');
+        if(prev) prev.style.display=exp?'none':'block';
+        btn.textContent=exp?'Cerrar ↑':'Leer completo ↓';
+      }
+      if(btn.dataset.action==='copiar'){
+        const a=state.archivo.find(x=>x.id===id); if(a) copyWithHashtags(a.texto,a.category);
+      }
+    });
+  });
 }
 
 // ══════════════════════
 // EXPORTAR / IMPORTAR
 // ══════════════════════
-window.exportarDatos = function() {
+document.getElementById('btn-exportar').addEventListener('click',()=>{
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url; a.download=`diario-farmacia-${new Date().toLocaleDateString('es-ES').replace(/\//g,'-')}.json`;
   a.click(); URL.revokeObjectURL(url); showToast('✓ Copia exportada');
-}
-window.importarDatos = function(event) {
-  const file=event.target.files[0]; if(!file) return;
+});
+document.getElementById('input-importar').addEventListener('change', e=>{
+  const file=e.target.files[0]; if(!file) return;
   const reader=new FileReader();
-  reader.onload=function(e){
+  reader.onload=ev=>{
     try {
-      const d=JSON.parse(e.target.result);
+      const d=JSON.parse(ev.target.result);
       if(!d.taller||!d.planificados){showToast('⚠ Archivo no válido');return;}
       if(!confirm('¿Importar esta copia? Se reemplazarán los datos actuales.')) return;
       state=d; schedulePush(); renderTaller(); showToast('✓ Datos importados');
-    } catch(e){showToast('⚠ Error al leer el archivo');}
+    } catch(err){showToast('⚠ Error al leer el archivo');}
   };
-  reader.readAsText(file); event.target.value='';
+  reader.readAsText(file); e.target.value='';
+});
+
+// ══════════════════════
+// INIT + FIREBASE
+// ══════════════════════
+function refreshActive() {
+  const a=document.querySelector('.panel.active'); if(!a) return;
+  const id=a.id.replace('panel-','');
+  if(id==='taller') renderTaller();
+  if(id==='planificados') renderPlan();
+  if(id==='ideas') renderIdeas();
+  if(id==='archivo') renderArchivo();
 }
 
-// ── Arrancar ──
-init();
+async function init() {
+  loadLocal();
+  setSyncStatus('☁ Cargando...');
+  try {
+    const snap=await getDoc(DOC_REF);
+    if(snap.exists()){
+      const d=JSON.parse(snap.data().data);
+      if(d.taller&&d.planificados){
+        state=d;
+        lastCloudUpdate=snap.data().updated||0;
+        saveLocal();
+        setSyncStatus('☁ Sincronizado');
+      }
+    } else {
+      state.planificados=INITIAL_PLAN.map(p=>({...p,id:p.num}));
+      state.taller=[{id:Date.now(),titulo:'Post de presentación',category:'paciente',texto:PRES_POST,estado:'listo'}];
+      saveLocal();
+      await pushToCloud();
+    }
+  } catch(e){ setSyncStatus('⚠ Sin conexión'); }
+
+  renderTaller();
+
+  onSnapshot(DOC_REF,(snap)=>{
+    if(!snap.exists()) return;
+    try {
+      const ts=snap.data().updated||0;
+      if(ts>lastCloudUpdate+2000){
+        lastCloudUpdate=ts;
+        const d=JSON.parse(snap.data().data);
+        if(!d.taller) return;
+        state=d; saveLocal(); refreshActive();
+        showToast('☁ Actualizado desde otro dispositivo');
+        setSyncStatus('☁ Sincronizado');
+      }
+    } catch(e){}
+  });
+}
+
+} // end setupUI
 </script>
 </body>
 </html>
