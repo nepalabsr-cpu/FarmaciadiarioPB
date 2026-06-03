@@ -192,7 +192,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAgkDI92gDxdgpyoaggd6Q_y-b4uaY_ma8",
+  apiKey: "AIzaSyBbSbPi3ukryr5q_QlckNm3zXP6iLXgF1A",
   authDomain: "diario-farmacia.firebaseapp.com",
   projectId: "diario-farmacia",
   storageBucket: "diario-farmacia.firebasestorage.app",
@@ -204,6 +204,7 @@ const db = getFirestore(fbApp);
 const DOC_REF = doc(db, 'diario', 'datos');
 
 const CATS = [
+  { id:'presentacion',label:'Presentación',             emoji:'👋', color:'#e6f0ec', accent:'#1a2e2a', desc:'Post de presentación del perfil' },
   { id:'paciente',   label:'El paciente desinformado', emoji:'💊', color:'#e8f4f0', accent:'#2d8a6e', desc:'Dudas de medicación, lo que nadie explicó en consulta' },
   { id:'burocracia', label:'Burocracia sanitaria',      emoji:'📋', color:'#f0f0f8', accent:'#5a4fcf', desc:'Recetas, visados, problemas con el sistema' },
   { id:'mostrador',  label:'Detrás del mostrador',      emoji:'🩺', color:'#fdedf0', accent:'#c43a5a', desc:'El rol del colectivo, lo que hacemos y nadie ve' },
@@ -218,6 +219,7 @@ const CICLO = ['paciente','mostrador','espacio','comercial','paciente','mostrado
 const CICLO_VENTANA = 16;
 
 const INITIAL_PLAN = [
+  { num:0,  raw:'Post de presentación del perfil',                                                category:'presentacion' },
   { num:1,  raw:'El paciente que sale de consulta sin entender nada',                             category:'paciente' },
   { num:2,  raw:'Lo que pasa en los 3 minutos en el mostrador',                                   category:'mostrador' },
   { num:3,  raw:'Escaparate abierto o cerrado',                                                   category:'espacio' },
@@ -442,7 +444,7 @@ function getCicloSlots() {
   const total = Math.max(maxNum + CICLO_VENTANA, CICLO_VENTANA + 1);
   const slots = [];
   for(let i=0; i<=total; i++) {
-    const cat = i===0 ? 'paciente' : CICLO[(i-1)%CICLO.length];
+    const cat = i===0 ? 'presentacion' : CICLO[(i-1)%CICLO.length];
     const entry = state.planificados.find(p=>p.num===i) || null;
     slots.push({num:i, cat, entry});
   }
@@ -458,11 +460,16 @@ function renderPlan() {
     const c=getCat(slot.cat);
     const lbl=slot.num===0?'0 · Presentación':slot.num;
     if(slot.entry){
-      return `<div class="card" style="border-left:3px solid ${c.accent}">
-        <div class="card-meta"><span class="num-badge" style="background:${c.accent}">${lbl}</span>${catBadge(slot.cat)}</div>
+      const enTaller = state.taller.some(t=>t.titulo===slot.entry.raw || t.titulo===slot.entry.raw.slice(0,60));
+      return `<div class="card" style="border-left:3px solid ${c.accent};${enTaller?'opacity:0.7':''}">
+        <div class="card-meta">
+          <span class="num-badge" style="background:${c.accent}">${lbl}</span>
+          ${catBadge(slot.cat)}
+          ${enTaller?'<span class="status-badge status-listo" style="margin-left:auto">✏️ En el Taller</span>':''}
+        </div>
         <p class="card-text">${slot.entry.raw}</p>
         <div class="card-actions">
-          <button class="btn-sm" data-action="altaller" data-id="${slot.entry.id}">Pasar al Taller →</button>
+          ${!enTaller?`<button class="btn-sm" data-action="altaller" data-id="${slot.entry.id}">Pasar al Taller →</button>`:''}
           <button class="btn-sm-danger" data-action="eliminar" data-id="${slot.entry.id}">Eliminar</button>
         </div>
       </div>`;
@@ -656,7 +663,7 @@ async function init() {
       }
     } else {
       state.planificados=INITIAL_PLAN.map(p=>({...p,id:p.num}));
-      state.taller=[{id:Date.now(),titulo:'Post de presentación',category:'paciente',texto:PRES_POST,estado:'listo'}];
+      state.taller=[{id:Date.now(),titulo:'Post de presentación',category:'presentacion',texto:PRES_POST,estado:'listo'}];
       saveLocal();
       await pushToCloud();
     }
