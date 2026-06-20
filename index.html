@@ -393,7 +393,7 @@ async function loadApp(){
   try{
     const snap=await getDoc(DOC_REF);
     if(snap.exists()){ const d=JSON.parse(snap.data().data); if(d.taller&&d.planificados){ state=d; lastCloudUpdate=snap.data().updated||0; saveLocal(); setSyncStatus('☁ Sincronizado'); } }
-    else{ state.planificados=INITIAL_PLAN.map(p=>({...p,id:p.num+1})); state.taller=[{id:Date.now(),planId:1,planNum:0,titulo:'Post de presentación',category:'presentacion',texto:PRES_POST,estado:'listo'}]; saveLocal(); await pushToCloud(); }
+    else{ saveLocal(); await pushToCloud(); }
   }catch(e){ setSyncStatus('⚠ Sin conexión'); }
   renderTaller();
   onSnapshot(DOC_REF,snap=>{ if(!snap.exists()) return; try{ const ts=snap.data().updated||0; if(ts>lastCloudUpdate+2000){ lastCloudUpdate=ts; const d=JSON.parse(snap.data().data); if(!d.taller) return; state=d; saveLocal(); refreshActive(); showToast('☁ Actualizado'); setSyncStatus('☁ Sincronizado'); } }catch(e){} });
